@@ -128,8 +128,9 @@ static void test(int argc, char *argv[])
 		/* append (gdb script should tear the memcpy) */
 		auto append_offset = get_append_offset(s.get(), &r);
 		/* add entry longer than 512 */
-		std::string buf(1024, '~');
+		std::string buf(1500, '~');
 		pmemstream_append(s.get(), &r, &append_offset, buf.data(), buf.size(), nullptr);
+		ASSERT_UNREACHABLE;
 
 	} else if (argv[1][0] == 'i') {
 		/* iterate all entries */

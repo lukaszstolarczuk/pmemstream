@@ -10,6 +10,12 @@ r
 info break 1
 b pmemstream_span_create_entry
 c
+#
+# Unfortunately on some systems (various gdb ver.) there's not way to
+# jump straight to the stream->memset line, so we go there step-by-step.
+b pmemstream_offset_to_ptr
+c
+finish
 s
 info line
 s
@@ -18,8 +24,8 @@ s
 info line
 s
 info line
-#s
-#info line
+s
+info line
 
 # watch for memcpy take place (address offset should be >512)
 watch *((uint8_t *)dest)+600
