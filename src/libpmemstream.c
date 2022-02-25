@@ -353,11 +353,16 @@ static enum future_state pmemstream_append_async_impl(struct future_context *ctx
 
 	struct pmemstream_async_append_data data = res->ctx;
 
-	/* XXX: use miniasync memcpy */
+	struct runtime *r = runtime_new();
+	struct vdm_descriptor *vdm_async_descriptor = vdm_descriptor_threads();
+	struct vdm *vdm = vdm_new(vdm_async_descriptor);
+	struct vdm_memcpy_future fut = vdm_memcpy(vdm, dst1, src1, TEST_SIZE, 0);
 	
-	data.stream->data.memcpy(data.reserved_dest, data.data, data.size, PMEM2_F_MEM_NOFLUSH);
-	int ret = pmemstream_publish(data.stream, data.region, data.region_runtime, data.data, data.size,
+	chain1: data.stream->data.memcpy(data.reserved_dest, data.data, data.size, PMEM2_F_MEM_NOFLUSH);
+	chain2: int ret = pmemstream_publish(data.stream, data.region, data.region_runtime, data.data, data.size,
 				     data.reserved_entry);
+
+	CHAIN_INIT ?
 
 	out->error_code = ret;
 	out->new_entry = data.reserved_entry;
