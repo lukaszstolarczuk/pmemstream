@@ -34,14 +34,16 @@ function upload_codecov() {
 	# check if code was compiled with clang
 	clang_used=$(cmake -LA -N . | grep -e "CMAKE_C.*_COMPILER" | grep clang | wc -c)
 	if [[ ${clang_used} -gt 0 ]]; then
-		# XXX: llvm-cov not supported
-		echo "Warning: Llvm-cov is not supported"
-		return 0
+		gcov_exe="llvm-cov"
+		gcov_args="gcov"
+	else
+		gcov_exe="gcov"
+		gcov_args=""
 	fi
 
 	# run codecov using gcov
 	# we rely on parsed report on codecov.io
-	/opt/scripts/codecov --flags ${1} --nonZero --gcov --rootDir . --clean
+	/opt/scripts/codecov --flags ${1} --nonZero --gcov --gcovExecutable "${gcov_exe}" --gcovArgs "${gcov_args}" --rootDir "${WORKDIR}/build" --clean
 
 	echo "Check for any leftover gcov files"
 	leftover_files=$(find . -name "*.gcov")
