@@ -1,0 +1,13 @@
+codecov:
+  status:
+    project:
+      default:
+        threshold: 0.2
+
+ignore:
+  - 'benchmarks/'
+  - 'doc/'
+  - 'examples/'
+  - 'tests/'
+  - 'utils/'
+  - '**/critnib/'

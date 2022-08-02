@@ -13,7 +13,6 @@ set -e
 INSTALL_DIR=/tmp/pmemstream
 STANDALONE_BUILD_DIR=/tmp/build_dir
 TEST_DIR=${PMEMSTREAM_TEST_DIR:-${DEFAULT_TEST_DIR}}
-IGNORE_PATHS="--gi benchmarks --gi doc --gi examples --gi tests --gi utils --gi **/critnib"
 
 ### Helper functions, used in run-*.sh scripts
 function sudo_password() {
@@ -42,7 +41,7 @@ function upload_codecov() {
 
 	# run codecov using gcov
 	# we rely on parsed report on codecov.io
-	/opt/scripts/codecov --flags ${1} --nonZero --gcov ${IGNORE_PATHS} --rootDir . --clean
+	/opt/scripts/codecov --flags ${1} --nonZero --gcov --rootDir . --clean
 
 	echo "Check for any leftover gcov files"
 	leftover_files=$(find . -name "*.gcov")
