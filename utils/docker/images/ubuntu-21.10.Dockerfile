@@ -10,6 +10,8 @@
 FROM ghcr.io/pmem/dev-utils-kit:ubuntu-21.10-latest
 MAINTAINER igor.chorazewicz@intel.com
 
+ENV PMDK_VERSION ab3fc0b7f1f519ce0050dc77d4fdb8b3fcba760c
+
 # use 'root' while building the image
 USER root
 
